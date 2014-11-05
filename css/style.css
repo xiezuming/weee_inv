@@ -1,0 +1,59 @@
+table {
+	font-family: verdana, arial, sans-serif;
+	border-width: 0px;
+	border-collapse: collapse;
+}
+
+th {
+	font-weight: bold;
+	font-size: 12px;
+	text-align: left;
+	padding: 6px;
+	color: #000;
+	background-color: #dedede;
+	padding: 6px;
+}
+
+td {
+	font-weight: normal;
+	font-size: 12px;
+	padding: 6px;
+	color: #000;
+}
+
+#footer {
+	background-color: transparent;
+	font-size: 10px;
+	padding: 16px 0 15px 0;
+	margin: 20px 0 0 0;
+	text-align: center;
+}
+
+#footer p {
+	font-size: 15px;
+	color: #999;
+	text-align: center;
+}
+
+#footer address {
+	font-style: normal;
+}
+
+table.gridtable {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+}
+
+table.gridtable th {
+	white-space: nowrap;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+}
+
+table.gridtable td {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+}
