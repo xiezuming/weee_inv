@@ -30,7 +30,7 @@ echo '</form>'?>
 		<td nowrap><?php echo $item['cost']?></td>
 		<td nowrap><?php echo $item['sales_split']?></td>
 		<td nowrap><?php echo $item['quantity']?></td>
-		<td nowrap><?php echo anchor ( 'store/print/' . $item ['inventory_id'], 'Print' );?></td>
+		<td nowrap><?php echo anchor ( 'store/print_label/' . $item ['inventory_id'], 'Print' );?></td>
 	</tr>
 	<?php
 	}

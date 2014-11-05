@@ -121,7 +121,7 @@ class Store extends CI_Controller {
 			if (! file_exists ( $dest_image_folder )) {
 				mkdir ( $dest_image_folder, 0777, true );
 			}
-			foreach ( $this->app_model->get_images ($old_global_item_id ) as $image_row ) {
+			foreach ( $this->app_model->get_images ( $old_global_item_id ) as $image_row ) {
 				$source_image_file = $source_image_folder . DIRECTORY_SEPARATOR . $image_row ['imageName'];
 				$dest_image_file = $dest_image_folder . DIRECTORY_SEPARATOR . $image_row ['imageName'];
 				copy ( $source_image_file, $dest_image_file );
@@ -162,6 +162,14 @@ class Store extends CI_Controller {
 			return FALSE;
 		}
 		return $inventory_id;
+	}
+	public function print_label($inventory_id) {
+		$inventory_item = $this->inventory_model->get_inventory_item ( $inventory_id );
+		if (! $inventory_item) {
+			show_404 ();
+			return;
+		}
+		$this->load->view ( 'store/print_label', $inventory_item );
 	}
 }
 

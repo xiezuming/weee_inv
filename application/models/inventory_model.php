@@ -6,6 +6,14 @@ define ( 'TABLE_Inventory', 'inventory' );
  * @property CI_DB_active_record $db
  */
 class Inventory_model extends CI_Model {
+	public function get_inventory_item($inventory_id) {
+		$where = array (
+				'inventory_id' => $inventory_id 
+		);
+		$query = $this->db->get_where ( TABLE_Inventory, $where );
+		$inventory_item = $query->row_array ();
+		return $inventory_item;
+	}
 	public function insert_inventory_item($data) {
 		$result = $this->db->insert ( TABLE_Inventory, $data );
 		if ($this->db->_error_number ())
