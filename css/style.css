@@ -57,3 +57,21 @@ table.gridtable td {
 	border-style: solid;
 	border-color: #666666;
 }
+
+.rightJustified {
+	text-align: right;
+}
+
+fieldset {
+	padding: 1em;
+	font: 80%/1 sans-serif;
+	border: 1px solid green；
+}
+
+legend {
+	padding: 0.2em 0.5em;
+	border: 1px solid green;
+	color: green;
+	font-size: 90%;
+	text-align: left;
+}

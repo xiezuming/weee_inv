@@ -1,12 +1,22 @@
 <?php
 define ( 'TABLE_ITEM', APP_DATABASE . '.item' );
 define ( 'TABLE_IMAGE', APP_DATABASE . '.item_image' );
+define ( 'TABLE_HISTORY', APP_DATABASE . '.item_history' );
+define ( 'TABLE_USER', APP_DATABASE . '.user' );
 
 /**
  *
  * @property CI_DB_active_record $db
  */
-class Item_model extends CI_Model {
+class App_model extends CI_Model {
+	public function get_user($userId) {
+		$where = array (
+				'userId' => $userId 
+		);
+		$query = $this->db->get_where ( TABLE_USER, $where );
+		$user = $query->row_array ();
+		return $user;
+	}
 	/* ======== ITEM ======== */
 	public function get_item($itemId) {
 		$this->db->where ( 'itemId', $itemId );
@@ -91,8 +101,8 @@ class Item_model extends CI_Model {
 		$query = $this->db->get ( TABLE_IMAGE );
 		return $query->result_array ();
 	}
-	public function get_first_image($globalItemId) {
-		$this->db->where ( 'Global_Item_ID', $globalItemId );
+	public function get_first_image($global_item_id) {
+		$this->db->where ( 'Global_Item_ID', $global_item_id );
 		$this->db->order_by ( "imageName", "" );
 		$this->db->limit ( 1 );
 		$query = $this->db->get ( TABLE_IMAGE );
