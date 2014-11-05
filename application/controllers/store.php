@@ -69,7 +69,7 @@ class Store extends CI_Controller {
 			if ($this->form_validation->run ()) {
 				$inventory_id = self::save_inventory ( $item, $user );
 				if ($inventory_id) {
-					redirect ( '/store' . $inventory_id, 'refresh' );
+					redirect ( '/store', 'refresh' );
 				}
 				$data ['error_message'] = 'Interal Error: Failed to update the database.';
 			}
