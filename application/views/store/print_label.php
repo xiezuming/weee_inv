@@ -46,7 +46,7 @@
 <script type="text/javascript">
 <!--
 $( document ).ready(function() {
-	$("#bcTarget").barcode($('#inventory_id').val(), "code11", {barWidth:3, barHeight:80, fontSize:20});
+	$("#bcTarget").barcode($('#inventory_id').val(), "code39", {barWidth:3, barHeight:80, fontSize:20});
 });
 //-->
 </script>
