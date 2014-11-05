@@ -38,6 +38,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('APP_DATABASE', 'weee');
 define('APP_SYSTEM_USER_ID', 'cf593216-4d53-4f5a-b400-b20c599cd9be');
+define('UPLOAD_BASE_PATH', '/var/uploads/weee_app/');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

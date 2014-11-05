@@ -93,14 +93,18 @@ class Store extends CI_Controller {
 		$this->db->trans_start ();
 		
 		if ($this->input->post ( 'submit_buy_and_sell' )) {
+			$user_name = 'Weee!';
+			$old_global_item_id = $item ['Global_Item_ID'];
+			
 			// update the item as sold
 			$this->app_model->insert_item_history ( $item );
 			$item ['availability'] = 'SD';
 			$item ['recUpdateTime'] = $date_now;
 			$this->app_model->update_item ( $item );
+			
 			// insert a new item
 			$this->load->helper ( 'uuid' );
-			$item ['sourceItemId'] = $item ['Global_Item_ID'];
+			$item ['sourceItemId'] = $old_global_item_id;
 			unset ( $item ['Global_Item_ID'] );
 			$item ['itemId'] = gen_uuid ();
 			$item ['inputSource'] = 'SYS';
@@ -111,7 +115,18 @@ class Store extends CI_Controller {
 			$this->app_model->insert_item ( $item );
 			$item ['Global_Item_ID'] = $this->db->insert_id ();
 			
-			$user_name = 'Weee!';
+			// insert images
+			$source_image_folder = UPLOAD_BASE_PATH . DIRECTORY_SEPARATOR . $user ['userId'];
+			$dest_image_folder = UPLOAD_BASE_PATH . DIRECTORY_SEPARATOR . APP_SYSTEM_USER_ID;
+			if (! file_exists ( $dest_image_folder )) {
+				mkdir ( $dest_image_folder, 0777, true );
+			}
+			foreach ( $this->app_model->get_images ($old_global_item_id ) as $image_row ) {
+				$source_image_file = $source_image_folder . DIRECTORY_SEPARATOR . $image_row ['imageName'];
+				$dest_image_file = $dest_image_folder . DIRECTORY_SEPARATOR . $image_row ['imageName'];
+				copy ( $source_image_file, $dest_image_file );
+				$this->app_model->insert_image ( $item ['Global_Item_ID'], $image_row ['imageName'] );
+			}
 		}
 		
 		$success = $this->inventory_model->insert_inventory_item ( array (
