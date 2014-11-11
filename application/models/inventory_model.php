@@ -46,5 +46,29 @@ class Inventory_model extends CI_Model {
 		$result = $query->result_array ();
 		return $result;
 	}
+	
+	public function reduce_quantity($id,$quantity){
+		$this->db->from ( TABLE_Inventory );
+		$where = array (
+			'app_global_item_id' => $id 
+		);
+		$this->db->where ( $where );
+		$query = $this->db->get();
+		$row = $query->row_array();
+		$q=$row['quantity'];
+		
+		
+		if ($q<$quantity) return ;
+		else 
+		{
+			$left = $q-$quantity;
+			//print_r($left);
+			$set = array('quantity' => $left);
+			$this->db->set('quantity',$left);
+			$this->db->update(TABLE_Inventory,$set,$where,1);
+			//print_r($str); 
+			return 'Success';
+		} 
+	}
 }
 ?>
