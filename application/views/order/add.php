@@ -2,11 +2,14 @@
 
 	var arrayObj = new Array();
 	var indexofcart=0;
+
+	$(function() {
+		
+	});
 	
 	function Query()
 	{
 		var id = $("#iptQueryItem").val();
-		//alert($("#iptQueryItem").val());
 		$.post(
 			"<?=base_url()?>index.php/order/queryitem",
 			{itemid:id},
@@ -28,6 +31,12 @@
 				break;
 			} 
 		}
+
+		for(i=0;i<arrayObj.length;i++)
+		{
+			arrayObj[i].index=i;	
+		}
+		
 		LoadCart();
 		GetSum();
 	}
@@ -41,7 +50,7 @@
 			if (arrayObj[i].index==index) continue;
 			if (arrayObj[i].id==data.id)
 			{
-				stock-=arrayObj[i].quantity;
+				stock-=arrayObj[i].purchase_quantity;
 			}
 		}
 		return stock;
@@ -51,7 +60,7 @@
 	{
 		indexofcart++;
 		data['index']=indexofcart;
-		data['quantity']=1;
+		data['purchase_quantity']=1;
 		if (LeftQuantity(-1,data)>=1)
 		{
 			arrayObj.push(data);
@@ -63,6 +72,7 @@
 
 	function checkout()
 	{
+		if (confirm("Do you really want to check out?") == false) return;
 		if (arrayObj.length==0){
 			alert("No item selected!");
 			return;
@@ -71,9 +81,7 @@
 		$.each(arrayObj,function(name,value){
 			var item={};
 			item['id']= this.id;
-			item['quantity']= this.quantity;
-			//item['title']=this.title;
-			//item['price']=this.price;
+			item['purchase_quantity']= this.purchase_quantity;
 			items.push(item);
 		});
 		var sum = $("#spnSum").html();
@@ -81,7 +89,7 @@
 		var tax=$("#spnTax").html();
 		var total=$("#spnTotal").html(); 
 		var customer = $("#iptCustomer").val();
-		
+
 		$.post(
 			"<?=base_url()?>index.php/order/addorder",
 			{customer:customer,sum:sum,discount:discount,tax:tax,total:total,data:items},
@@ -89,7 +97,7 @@
 				if (data=='OK')
 				{
 					alert('Order saved!');
-					window.location.reload();
+					location.href('<?=base_url()?>index.php/order');
 				}
 				else alert('ERROR!');
 			}
@@ -103,9 +111,9 @@
 			if (arrayObj[i].index==index) 
 			{
 				var left = LeftQuantity(index,arrayObj[i]);
-				if (eval(quantity)<=eval(left)) arrayObj[i].quantity=quantity;
-				else arrayObj[i].quantity=left;
-				return arrayObj[i].quantity;
+				if (eval(quantity)<=eval(left)) arrayObj[i].purchase_quantity=quantity;
+				else arrayObj[i].purchase_quantity=left;
+				return arrayObj[i].puechase_quantity;
 			}
 		}
 	}
@@ -125,11 +133,10 @@
 		
 		for(i=0;i<arrayObj.length;i++)
 		{
-			sum+=arrayObj[i].price*arrayObj[i].quantity;
+			sum+=arrayObj[i].price*arrayObj[i].purchase_quantity;
 		}
 		tax= (sum-discount)*taxrate;
 		total = sum-discount+tax;
-		//alert(sum);
 		$("#spnSum").html(sum);
 		tax=tax.toFixed(2);
 		$("#spnTax").html(tax);
@@ -143,7 +150,6 @@
 		var str=$("#iptPurchaseQuantity"+index).val();
 		if (ex.test(str)) {
 			var q=SetQuantity(index,str);
-			//alert(q);
 			if (str>q){
 				alert('Only '+q+' left');
 				$("#iptPurchaseQuantity"+index).val(q);
@@ -161,9 +167,7 @@
 
 	function OnDiscountChange()
 	{
-		
 		var discount= $("#iptDiscount").val();
-		//alert(discount);
 		if (isNaN(discount)) {
 			alert('Input Error!');
 			$("#iptDiscount").val('0');
@@ -180,33 +184,27 @@
 			html+="<td>"+this.title+"</td>";
 			html+="<td>"+this.price+"</td>";
 			html+="<td>"+this.stockquantity+"</td>";
-			html+="<td><input id='iptPurchaseQuantity"+this.index+"' style='width:90' value='"+this.quantity+"' onchange='OnQuantityChange("+this.index+")'/>"+"</td>";
+			html+="<td><input id='iptPurchaseQuantity"+this.index+"' style='width:90' value='"+this.purchase_quantity+"' onchange='OnQuantityChange("+this.index+")'/>"+"</td>";
 			html+="<td>"+"<input type='button' value='Delete' onclick='deleteitem("+this.index+")'/></td>";
 			html+="</tr>";
 		});
-		//html+="</tbody>";
 		$("#tblCart1").html(html);
 	};
 	
 
 </script>
 
-
-<h3>Customer Name:  <input id='iptCustomer' value='Anonymous'/></h3>
-
 <br/>
-<p>Item ID:
-<input id='iptQueryItem' onkeydown="if(event.keyCode==13) Query()"/>
-<input type="button" value="Query" onclick="Query()"/>
+<p>Inventory ID:
+	<input id='iptQueryItem' onkeydown="if(event.keyCode==13) Query()"/>
+	<input type="button" value="Query" onclick="Query()"/>
 </p>
 <hr/>
-<h3>Cart</h3>
+<h3>Order</h3>
 <table id='tblCart' class='gridtable' style="width: 1200">
 	<thead>
 	<tr>
-	
 	<th style='width: 100'>Inventory Id</th>
-
 	<th style='width: 500'>Title</th>
 	<th style='width: 100'>Price($)</th>
 	<th style='width: 100'>Available Quantity</th>
@@ -218,8 +216,13 @@
 
 </table>
 <hr/>
-<h3>Preview</h3>
+
 <table class='gridtable'>
+	<tr>
+		<td style="width: 200">Customer</td>
+		<td style="width: 200;text-align:right"><input id='iptCustomer' style="text-align:right" value='Anonymous'/> </td>
+	
+	</tr>
 	<tr>
 		<td style="width: 200">Total before tax:</td>
 		<td style="width: 200;text-align:right">$<span id='spnSum' >0</span></td>
@@ -237,6 +240,7 @@
 		<td style="text-align:right">$<span id='spnTotal' >0</span></td>
 	</tr>
 </table>
+
 <table>
 	<tr>
 		<td style="width: 200"></td>

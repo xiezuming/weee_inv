@@ -55,14 +55,13 @@ class Inventory_model extends CI_Model {
 		$this->db->where ( $where );
 		$query = $this->db->get();
 		$row = $query->row_array();
-		$q=$row['quantity'];
+		$q=$row['remainder_quantity'];
 		
 		if ($q<$quantity) return ;
 		else 
 		{
 			$left = $q-$quantity;
-			$set = array('quantity' => $left);
-			$this->db->set('quantity',$left);
+			$set = array('remainder_quantity' => $left);
 			$this->db->update(TABLE_Inventory,$set,$where,1);
 			return 'Success';
 		} 

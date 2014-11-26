@@ -18,7 +18,6 @@
 			$this->load->view ( 'templates/header', $data );
 			$this->load->view ( 'order/index' );
 			$this->load->view ( 'templates/footer' );
-		
 		}
 
 		public function queryitem()
@@ -40,7 +39,7 @@
 				$data['id']=$iventory['inventory_id'];
 				$data['title']=$iventory['title'];
 				$data['price']=$iventory['price'];
-				$data['stockquantity']=$iventory['quantity'];
+				$data['stockquantity']=$iventory['remainder_quantity'];
 			}
 			else $data['result']='FAIL'; 
 			$this->output->set_content_type ( 'application/json' )->set_output ( json_encode ( $data ) );
@@ -76,11 +75,12 @@
 			));
 			
 			
+			
 			if ($success) {
 				$order_id = $this->db->insert_id ();
 				$line=0;
 				foreach ( $data as $item ){
-					$success=$this->inventory_model->reduce_quantity($item['id'],$item['quantity']);
+					$success=$this->inventory_model->reduce_quantity($item['id'],$item['purchase_quantity']);
 					if ($success);
 					else break;
 					$line++;
@@ -95,7 +95,7 @@
 						'order_id'=>$order_id,
 						'order_line_num' => $line,
 						'inventory_id'=>$inventory_id,
-						'quantity'=>$item['quantity'],
+						'quantity'=>$item['purchase_quantity'],
 						'title'=>$title,
 						'price'=>$price				
 					));

@@ -20,6 +20,7 @@
 
 		SetNavigation();
 		$("#divDetail").hide();
+		Query();
 		
 		//$("#divNavigation").hide();
 	});
@@ -68,6 +69,8 @@
 				for(var i=0;i<count;i++)
 				{
 					html+="<tr>";
+					html+="<td>"+items[i].order_line_num+"</td>";
+					html+="<td>"+items[i].inventory_id+"</td>";
 					html+="<td>"+items[i].title+"</td>";
 					html+="<td>"+items[i].quantity+"</td>";
 					html+="<td>$"+items[i].price+"</td>";
@@ -246,8 +249,10 @@ orders in each page.
 	<p>Details of order &nbsp<span id='spnOrderID' style='color: red'> </span>&nbsp <input type='button' value='Close' onclick='closedetail()'/> </p>
 	<table class='gridtable'style="width: 1000">
 		<thead>
-			<th >Title</th>
-			<th >Quantity</th>
+			<th>Order Line Num </th>
+			<th>Inventory ID </th>
+			<th>Title</th>
+			<th>Quantity</th>
 			<th>Price</th>
 		</thead>
 		<tbody id='tblDetail'></tbody>

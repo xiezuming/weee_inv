@@ -46,7 +46,6 @@ class Order_model extends CI_Model {
 		}
 		$result = $query->result_array ();
 		return $result;
-	
 	}
 	
 	public function count_orders($where) {
@@ -65,7 +64,7 @@ class Order_model extends CI_Model {
 		$this->db->from ( TABLE_Order_item );
 		$where="order_id = $id";
 		$this->db->where($where);
-		$this->db->select('title,quantity,price');
+		$this->db->select('order_line_num,inventory_id,title,quantity,price');
 		$query = $this->db->get ();
 		$result = $query->result_array ();
 		return $result;

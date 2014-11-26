@@ -142,6 +142,7 @@ class Store extends CI_Controller {
 				'cost' => $cost ? $cost : NULL,
 				'sales_split' => $sales_split ? $sales_split : NULL,
 				'quantity' => $this->input->post ( 'quantity' ),
+				'remainder_quantity' => $this->input->post ( 'quantity' ),
 				'rec_create_time' => $date_now,
 				'rec_update_time' => $date_now 
 		) );
