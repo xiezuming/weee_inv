@@ -78,7 +78,7 @@
 			
 			if ($success) {
 				$order_id = $this->db->insert_id ();
-				$line=0;
+				$line=0; 
 				foreach ( $data as $item ){
 					$success=$this->inventory_model->reduce_quantity($item['id'],$item['purchase_quantity']);
 					if ($success);

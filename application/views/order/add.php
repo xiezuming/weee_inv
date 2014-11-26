@@ -123,7 +123,7 @@
 		if(arrayObj.length==0) {
 			$("#spnSum").html('0');
 			$("#spnTax").html('0');
-			$("#spnTotal").html('0');
+			$("#spnTotal").html('0'); 
 
 			return;	
 		}

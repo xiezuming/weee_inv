@@ -12,7 +12,7 @@ class Inventory_model extends CI_Model {
 		);
 		$query = $this->db->get_where ( TABLE_Inventory, $where );
 		$inventory_item = $query->row_array ();
-		return $inventory_item;
+		return  $inventory_item;
 	}
 	public function insert_inventory_item($data) {
 		$result = $this->db->insert ( TABLE_Inventory, $data );

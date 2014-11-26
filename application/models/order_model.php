@@ -51,7 +51,7 @@ class Order_model extends CI_Model {
 	public function count_orders($where) {
 		$this->db->from ( TABLE_Order );
 		if ($where) {
-			$this->db->where ( $where );
+			$this->db->where ( $where ); 
 		}
 		$result = $this->db->count_all_results ();
 		if ($this->db->_error_number ()) {
