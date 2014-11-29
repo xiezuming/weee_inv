@@ -44,6 +44,41 @@ class Item extends CI_Controller {
 		$this->load->view ( 'item/index', $data );
 		$this->load->view ( 'templates/footer' );
 	}
+	
+	
+	public function GetItemsByUser($user)
+	{
+		$this->load->helper ( 'form' );
+		$where = "userId = '$user'";
+		$count = $this->app_model->count_items ( $where );
+		$items = $this->app_model->query_items ( $where, 10 );
+		$items_with_image = array ();
+		foreach ( $items as $item ) {
+			$item ['url'] = '';
+			$image_row = $this->app_model->get_first_image ( $item ['Global_Item_ID'] );
+			if ($image_row) {
+				$user_id = $item ['userId'];
+				$image_name = $image_row ['imageName'];
+				$image_name = substr_replace ( $image_name, '-360', - 4, 0 );
+				// Hard code the url base string.
+				$item ['image_url'] = "http://www.letustag.com/images/weee_app/$user_id/$image_name";
+			}
+			array_push ( $items_with_image, $item );
+		}
+		
+		$data ['title'] = 'Item List';
+		$data ['count'] = $count;
+		$data ['items'] = $items_with_image;
+		$data ['query_string'] = "";
+		
+		$this->load->view ( 'templates/header', $data );
+		$this->load->view ( 'item/index', $data );
+		$this->load->view ( 'templates/footer' );
+		
+		
+		
+		
+	}
 }
 
 ?>

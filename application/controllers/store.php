@@ -18,7 +18,7 @@ class Store extends CI_Controller {
 		
 		$query_string = $this->input->post ( 'query_string' );
 		$where = NULL;
-		if ($query_string) { 
+		if ($query_string) {
 			$where = "inventory_id = '$query_string' OR title like '%$query_string%'";
 		}
 		
