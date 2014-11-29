@@ -206,6 +206,7 @@
 
 <h3>Order List</h3>
 <?php echo anchor ( 'order/add' , 'Create New' );?>
+
 <p>Customer:
 <input id='iptCustomer'/>
 Date: from 
