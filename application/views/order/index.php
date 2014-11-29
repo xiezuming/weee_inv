@@ -21,8 +21,6 @@
 		SetNavigation();
 		$("#divDetail").hide();
 		Query();
-		
-		//$("#divNavigation").hide();
 	});
 
 	function SetNavigation()

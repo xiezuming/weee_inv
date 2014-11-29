@@ -23,7 +23,7 @@
 		public function queryitem()
 		{
 			$found=false;
-			$query_string=$_POST['itemid'];	
+			$query_string=$_POST['itemid'];	 
 			
 			if ($query_string) {
 				$where = "inventory_id = $query_string";

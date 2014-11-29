@@ -95,7 +95,7 @@
 			{customer:customer,sum:sum,discount:discount,tax:tax,total:total,data:items},
 			function(data){
 				if (data=='OK')
-				{
+				{ 
 					alert('Order saved!');
 					location.href('<?=base_url()?>index.php/order');
 				}

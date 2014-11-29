@@ -47,7 +47,7 @@ class Inventory_model extends CI_Model {
 		return $result;
 	}
 	
-	public function reduce_quantity($id,$quantity){
+	public function reduce_quantity($id,$quantity){ 
 		$this->db->from ( TABLE_Inventory );
 		$where = array (
 			'inventory_id' => $id 

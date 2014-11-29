@@ -46,7 +46,7 @@ class Item extends CI_Controller {
 	}
 	
 	
-	public function GetItemsByUser($user)
+	public function GetItemsByUser($user) 
 	{
 		$this->load->helper ( 'form' );
 		$where = "userId = '$user'";

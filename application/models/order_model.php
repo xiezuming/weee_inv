@@ -63,7 +63,7 @@ class Order_model extends CI_Model {
 	public function query_order_items($id){
 		$this->db->from ( TABLE_Order_item );
 		$where="order_id = $id";
-		$this->db->where($where);
+		$this->db->where($where); 
 		$this->db->select('order_line_num,inventory_id,title,quantity,price');
 		$query = $this->db->get ();
 		$result = $query->result_array ();
