@@ -34,19 +34,24 @@
 
 	function Query()
 	{
+		pageindex=0;
+		postQuery();
+	}
+
+	function postQuery()
+	{
 		var customer = $('#iptCustomer').val();
 		var startdate = $('#iptStartDate').val();
 		var enddate = $('#iptEndDate').val();
 		var number = $('#slcNumber').val();
-		pageindex=0;
+		var offset=pageindex*number;
 		$.post(
 			"<?=base_url()?>index.php/order/query_orders",
-			{customer:customer,startdate:startdate,enddate:enddate,number:number,offset:0},
+			{customer:customer,startdate:startdate,enddate:enddate,limit:number,offset:offset},
 			function(data){
-				//alert(data);
 				var orders = eval(data);
 				var count = orders[orders.length-1];
-				$("#spnTotalOrders").text(count);
+				$("#spnTotal").text(count);
 				totalpages=Math.ceil(count/number);				
 				LoadOrders(orders);
 				SetNavigation();
@@ -118,21 +123,8 @@
 		if (ex.test(str)) {
 			if ((str<=totalpages)&&(str>=1))
 			{
-				var customer = $('#iptCustomer').val();
-				var startdate = $('#iptStartDate').val();
-				var enddate = $('#iptEndDate').val();
-				var number = $('#slcNumber').val();
 				pageindex=str-1;
-				var offset=pageindex*number;
-				$.post(
-					"<?=base_url()?>index.php/order/query_orders",
-					{customer:customer,startdate:startdate,enddate:enddate,number:number,offset:offset},
-					function(data){
-						var orders = eval(data);
-						LoadOrders(orders);
-						SetNavigation();
-					}
-				);
+				postQuery();
 			}
 			else alert('Input ERROR!');
 		}
@@ -148,21 +140,7 @@
 		}
 
 		pageindex++;
-		var customer = $('#iptCustomer').val();
-		var startdate = $('#iptStartDate').val();
-		var enddate = $('#iptEndDate').val();
-		var number = $('#slcNumber').val();
-		
-		var offset=pageindex*number;
-		$.post(
-			"<?=base_url()?>index.php/order/query_orders",
-			{customer:customer,startdate:startdate,enddate:enddate,number:number,offset:offset},
-			function(data){
-				var orders = eval(data);
-				LoadOrders(orders);
-				SetNavigation();
-			}
-		);
+		postQuery();
 	}
 
 	function prev()
@@ -172,23 +150,8 @@
 			alert('First page already!')
 			return;
 		}
-
 		pageindex--;
-		var customer = $('#iptCustomer').val();
-		var startdate = $('#iptStartDate').val();
-		var enddate = $('#iptEndDate').val();
-		var number = $('#slcNumber').val();
-		
-		var offset=pageindex*number;
-		$.post(
-			"<?=base_url()?>index.php/order/query_orders",
-			{customer:customer,startdate:startdate,enddate:enddate,number:number,offset:offset},
-			function(data){
-				var orders = eval(data);
-				LoadOrders(orders);
-				SetNavigation();
-			}
-		);
+		postQuery();
 	}
 
 	function closedetail()
@@ -237,7 +200,7 @@ orders in each page.
 </table>
 
 <div id='divNavigation'>
-	Total <span id='spnTotalOrders' style='color: red'>0</span>&nbsp orders found!&nbsp&nbsp&nbsp
+	Total <span id='spnTotal' style='color: red'>0</span>&nbsp orders found!&nbsp&nbsp&nbsp
 	Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp <span id='spnTotalPages' style='color: red'></span> &nbsppages.
 	<a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()' >Next</a> Goto <input id='iptGoto' style='width: 40' /><input id='iptGotoPage' type='button' value='GO' onclick='goto()'/>
 </div>

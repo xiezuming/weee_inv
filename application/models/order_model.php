@@ -1,6 +1,7 @@
 <?php
 define ( 'TABLE_Order', 'order' );
 define ( 'TABLE_Order_item', 'order_item' );
+define ( 'TABLE_inventory', 'inventory' );
 
 
 /**
@@ -60,7 +61,7 @@ class Order_model extends CI_Model {
 		return $result;
 	}
 	
-	public function query_order_items($id){
+	public function query_order_item_by_id($id){
 		$this->db->from ( TABLE_Order_item );
 		$where="order_id = $id";
 		$this->db->where($where); 
@@ -68,6 +69,23 @@ class Order_model extends CI_Model {
 		$query = $this->db->get ();
 		$result = $query->result_array ();
 		return $result;
+	}
+	
+	public function  query_order_items($userId,$query_string,$limit,$offset)
+	{
+		$SQL="SELECT * FROM order_item WHERE order_item_id > -1 ";
+		if ($query_string)
+			$SQL=$SQL." AND ( inventory_id = '$query_string' OR title like '%$query_string%') ";
+		if($userId)
+			$SQL=$SQL." AND ( inventory_id in (SELECT inventory_id FROM ".TABLE_inventory." WHERE user_Id='$userId'))";
+		
+		$query = $this->db->query($SQL);
+		$count=count($query->result_array ());
+		$SQL=$SQL." LIMIT $offset, $limit";
+		$query = $this->db->query($SQL);
+		$result = $query->result_array ();
+		array_push($result, $count);	
+		return $result;							
 	}
 	
 }

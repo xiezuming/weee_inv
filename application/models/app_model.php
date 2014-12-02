@@ -9,6 +9,7 @@ define ( 'TABLE_USER', APP_DATABASE . '.user' );
  * @property CI_DB_active_record $db
  */
 class App_model extends CI_Model {
+	/*========USER=========*/
 	public function get_user($userId) {
 		$where = array (
 				'userId' => $userId 
@@ -17,6 +18,52 @@ class App_model extends CI_Model {
 		$user = $query->row_array ();
 		return $user;
 	}
+	
+	public function count_user($where)
+	{
+		$this->db->from ( TABLE_USER );
+		if ($where) {
+			$this->db->where ( $where );
+		}
+		$result = $this->db->count_all_results ();
+		if ($this->db->_error_number ()) {
+			log_message ( 'error', 'user_model.count_user: ' . $this->db->_error_number () . ':' . $this->db->_error_message () );
+		}
+		return $result;
+	}
+	
+	
+	public function  query_user($where, $limit, $offset = null)
+	{
+		$this->db->from ( TABLE_USER );
+		if ($where) {
+			$this->db->where ( $where );
+		}
+		$this->db->limit ( $limit, $offset );
+		$query = $this->db->get ();
+		log_message ( 'debug', "user_model.query_user: SQL = \n" . $this->db->last_query () );
+		if ($this->db->_error_number ()) {
+			log_message ( 'error', 'user_model.query_user: ' . $this->db->_error_number () . ':' . $this->db->_error_message () );
+		}
+		$result = $query->result_array ();
+		return $result;
+	}
+	
+	public function get_userId($Global_User_ID)
+	{
+		$where = array (
+				'Global_User_ID' => $Global_User_ID
+		);
+		$query = $this->db->get_where ( TABLE_USER, $where );
+		if (count($query->result())!=1) return ;  
+		$user = $query->row_array ();
+		return $user['userId'];
+	}
+	
+	
+	
+	
+	
 	/* ======== ITEM ======== */
 	public function get_item($itemId) {
 		$this->db->where ( 'itemId', $itemId );

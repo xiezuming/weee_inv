@@ -13,12 +13,19 @@ class Item extends CI_Controller {
 	}
 	public function index() {
 		$this->load->helper ( 'form' );
-		
+		$Global_User_ID = $this->input->post ( 'Global_User_ID' );
 		$query_string = $this->input->post ( 'query_string' );
-		$where = NULL;
+		$where = "Global_Item_ID > -1 ";
 		if ($query_string) {
-			$where = "global_item_id = '$query_string' OR title like '%$query_string%'";
+			$where = $where." AND (global_item_id = '$query_string' OR title like '%$query_string%')";
 		}
+		
+		if ($Global_User_ID)
+		{
+			$userId=$this->app_model->get_userId($Global_User_ID);
+			$where=$where." AND userId = '$userId'";
+		}
+		
 		$count = $this->app_model->count_items ( $where );
 		$items = $this->app_model->query_items ( $where, 10 );
 		$items_with_image = array ();
@@ -39,6 +46,7 @@ class Item extends CI_Controller {
 		$data ['count'] = $count;
 		$data ['items'] = $items_with_image;
 		$data ['query_string'] = $query_string;
+		$data ['Global_User_ID'] =$Global_User_ID;
 		
 		$this->load->view ( 'templates/header', $data );
 		$this->load->view ( 'item/index', $data );
@@ -46,10 +54,11 @@ class Item extends CI_Controller {
 	}
 	
 	
-	public function GetItemsByUser($user) 
+	public function GetItemsByUser($Global_User_ID) 
 	{
 		$this->load->helper ( 'form' );
-		$where = "userId = '$user'";
+		$userId=$this->app_model->get_userId($Global_User_ID);
+		$where = "userId = '$userId'";
 		$count = $this->app_model->count_items ( $where );
 		$items = $this->app_model->query_items ( $where, 10 );
 		$items_with_image = array ();
@@ -70,13 +79,11 @@ class Item extends CI_Controller {
 		$data ['count'] = $count;
 		$data ['items'] = $items_with_image;
 		$data ['query_string'] = "";
+		$data ['Global_User_ID'] =$Global_User_ID;
 		
 		$this->load->view ( 'templates/header', $data );
 		$this->load->view ( 'item/index', $data );
 		$this->load->view ( 'templates/footer' );
-		
-		
-		
 		
 	}
 }

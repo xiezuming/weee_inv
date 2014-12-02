@@ -2,7 +2,10 @@
 
 <?php
 echo form_open ( 'item' );
+echo "Query string: ";
 echo form_input ( 'query_string', $query_string, 'size="40" placeholder="Item ID or Title"' );
+echo " User ID: ";
+echo form_input ( 'Global_User_ID', $Global_User_ID, 'size="40" placeholder="User ID"' );
 echo form_submit ( 'mysubmit', 'Query' );
 echo '</form>'?>
 
