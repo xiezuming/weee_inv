@@ -58,7 +58,7 @@
 			html+="<td>"+items[i].cost+"</td>";
 			html+="<td>"+items[i].sales_split+"</td>";
 			html+="<td>"+items[i].quantity+"</td>";
-			
+			html+="<td>"+items[i].remainder_quantity+"</td>";
 			html+="<td><a href='<?=base_url()?>index.php/inventories/print_label/"+items[i].inventory_id+"' >Print</a></td>";
 			html+="</tr>";
 		}
@@ -140,6 +140,7 @@ inventories in each page.
 		<th style='width: 100'>Cost</th>
 		<th style='width: 100'>Sales Split</th>
 		<th style='width: 100'>Quantity</th>
+		<th style='width: 100'>Reaminder</th>
 		<th style='width: 100'>Print</th>
 	</thead>
 	<tbody id='tblItems'></tbody>
