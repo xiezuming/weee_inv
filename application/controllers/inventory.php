@@ -2,7 +2,7 @@
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 
-class Inventories extends CI_Controller {
+class Inventory extends CI_Controller {
 	function __construct() {
 		parent::__construct ();
 		$this->load->model ( 'inventory_model' );
@@ -10,11 +10,11 @@ class Inventories extends CI_Controller {
 	}
 
 	public function index() {
-		$data['title']='Inventory List';
+		$data['title']='inventory';
 		$data['Global_User_ID']=NULL;
 		$data['id']=NULL;
 		$this->load->view ( 'templates/header', $data );
-		$this->load->view ( 'inventories/index',$data );
+		$this->load->view ( 'inventory/index',$data );
 		$this->load->view ( 'templates/footer' );
 	}
 
@@ -24,7 +24,7 @@ class Inventories extends CI_Controller {
 		$data['Global_User_ID']=$user;
 		$data['id']=NULL;
 		$this->load->view ( 'templates/header', $data );
-		$this->load->view ( 'inventories/index',$data );
+		$this->load->view ( 'inventory/index',$data );
 		$this->load->view ( 'templates/footer' );
 	}
 	
@@ -34,7 +34,7 @@ class Inventories extends CI_Controller {
 		$data['Global_User_ID']=NULL;
 		$data['id']=$id;
 		$this->load->view ( 'templates/header', $data );
-		$this->load->view ( 'inventories/index',$data );
+		$this->load->view ( 'inventory/index',$data );
 		$this->load->view ( 'templates/footer' );
 	}	
 	
@@ -85,7 +85,7 @@ class Inventories extends CI_Controller {
 			show_404 ();
 			return;
 		}
-		$this->load->view ( 'inventories/print_label', $inventory_item );
+		$this->load->view ( 'inventory/print_label', $inventory_item );
 	}
 	
 	public function in($global_item_id) {
@@ -123,14 +123,14 @@ class Inventories extends CI_Controller {
 			if ($this->form_validation->run ()) {
 				$inventory_id = self::save_inventory ( $item, $user );
 				if ($inventory_id) {
-					redirect ( '/inventories', 'refresh' );
+					redirect ( '/inventory', 'refresh' );
 				}
 				$data ['error_message'] = 'Interal Error: Failed to update the database.';
 			}
 		}
 	
 		$this->load->view ( 'templates/header', $data );
-		$this->load->view ( 'inventories/in', $data );
+		$this->load->view ( 'inventory/in', $data );
 		$this->load->view ( 'templates/footer' );
 	}
 	private function save_inventory($item, $user) {
