@@ -97,7 +97,7 @@
 				if (data=='OK')
 				{ 
 					alert('Order saved!');
-					location.href('<?=base_url()?>index.php/order');
+					window.location.href="<?=base_url()?>index.php/order";
 				}
 				else alert('ERROR!');
 			}
@@ -188,65 +188,72 @@
 			html+="<td>"+"<input type='button' value='Delete' onclick='deleteitem("+this.index+")'/></td>";
 			html+="</tr>";
 		});
-		$("#tblCart1").html(html);
+		$("#tblCart").html(html);
 	};
 	
 
 </script>
 
-<br/>
-<p>Inventory ID:
-	<input id='iptQueryItem' onkeydown="if(event.keyCode==13) Query()"/>
-	<input type="button" value="Query" onclick="Query()"/>
-</p>
-<hr/>
-<h3>Order</h3>
-<table id='tblCart' class='gridtable' style="width: 1200">
-	<thead>
-	<tr>
-	<th style='width: 100'>Inventory Id</th>
-	<th style='width: 500'>Title</th>
-	<th style='width: 100'>Price($)</th>
-	<th style='width: 100'>Available Quantity</th>
-	<th style='width: 100'>Purchase Quantity</th>
-	<th>Delete</th>
-	</tr>
-	</thead>
-	<tbody id='tblCart1' ></tbody>
+<div class="panel panel-default">
+  <div class="panel-body form-inline">
+    <input id='iptQueryItem' class="form-control"
+      placeholder="Input inventory ID here." style="width: 300px" onkeydown="if(event.keyCode==13) Query()"/>
+    <input type='button'
+      class="btn btn-default" value='Query' onclick='Query()' />
+  </div>
+</div>
 
-</table>
 <hr/>
 
-<table class='gridtable'>
-	<tr>
-		<td style="width: 200">Customer</td>
-		<td style="width: 200;text-align:right"><input id='iptCustomer' style="text-align:right" value='Anonymous'/> </td>
-	
-	</tr>
-	<tr>
-		<td style="width: 200">Total before tax:</td>
-		<td style="width: 200;text-align:right">$<span id='spnSum' >0</span></td>
-	</tr>
-	<tr>
-		<td >Discount</td>
-		<td style="text-align:right">$<input style="text-align:right" id='iptDiscount' value='0' onchange='OnDiscountChange()'/></td>
-	</tr>
-	<tr>
-		<td >Tax:</td>
-		<td style="text-align:right">$<span id='spnTax' >0</span></td>
-	</tr>
-	<tr>
-		<td >Total:</td>
-		<td style="text-align:right">$<span id='spnTotal' >0</span></td>
-	</tr>
-</table>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class='table'>
+	  <thead>
+	    <tr>
+	      <th style='width: 100'>Inventory Id</th>
+	      <th style='width: 500'>Title</th>
+	      <th style='width: 100'>Price($)</th>
+	      <th style='width: 100'>Available Quantity</th>
+          <th style='width: 100'>Purchase Quantity</th>
+	      <th>Delete</th>
+	    </tr>
+	  </thead>
+	  <tbody id='tblCart' ></tbody>
+    </table>
+  </div>
+</div>
+<hr/>
 
-<table>
-	<tr>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class='table'>
+	  <tr>
+	    <td style="width: 200">Customer</td>
+	    <td style="width: 200;text-align:right"><input id='iptCustomer' style="text-align:right" value='Anonymous'/> </td>
+	  </tr>
+	  <tr>
+	    <td style="width: 200">Total before tax:</td>
+	    <td style="width: 200;text-align:right">$<span id='spnSum' >0</span></td>
+	  </tr>
+	  <tr>
+	    <td >Discount</td>
+	    <td style="text-align:right">$<input style="text-align:right" id='iptDiscount' value='0' onchange='OnDiscountChange()'/></td>
+	  </tr>
+	  <tr>
+	    <td >Tax:</td>
+	    <td style="text-align:right">$<span id='spnTax' >0</span></td>
+	  </tr>
+	  <tr>
+	    <td >Total:</td>
+	    <td style="text-align:right">$<span id='spnTotal' >0</span></td>
+	  </tr>
+	  <tr>
 		<td style="width: 200"></td>
 		<td style="width: 200;text-align:right"><input type='button' value='Check Out' onclick='checkout()'/></td>
-	</tr>
-</table>
+	  </tr>
+    </table>
+  </div>
+</div>
 
 
 

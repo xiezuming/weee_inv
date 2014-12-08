@@ -106,37 +106,54 @@
 
 </script>
 
-<h3><?php echo $title;?></h3>
-<p>User: <input id='iptUser' /> Item: <input id='iptQueryString' /> 
-Show
-<select style='width: 50px' id='slcNumber'>
-  <option value ='10'>10</option>
-  <option value ='20'>20</option>
-  <option value ='50'>50</option>
-  <option value ='100'>100</option>
-</select>
-items in each page.
 
-<input type='button' value='Query' onclick='Query()' />
-</p>
+<div class="panel panel-default">
+  <div class="panel-body form-inline">
+    <input id='iptQueryString' class="form-control"
+      placeholder="Item ID, Name or Description" style="width: 300px" />
+    <input id='iptUser' class="form-control" placeholder="User ID"
+      style="width: 300px" /> <input type='button'
+      class="btn btn-default" value='Query' onclick='Query()' />
+  </div>
+</div> 
 
-
-<hr/>
 <a name='C1'></a>
-<table class='gridtable' style="width: 1000">
-	<thead >
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class='table'>
+	  <thead >
 		<th style='width: 100'>Order ID</th>
 		<th style='width: 100'>Order Line Num</th>
 		<th style='width: 50' >Inventory ID</th>
 		<th style='width: 500'>Title</th>
 		<th style='width: 100'>Qyantity</th>
 		<th style='width: 100'>Price</th>
-	</thead>
-	<tbody id='tblItems'></tbody>
-</table>
-<br/>
-<div id='divNavigation'>
-	Total <span id='spnTotal' style='color: red'>0</span>&nbsp items found!&nbsp&nbsp&nbsp
-	Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp <span id='spnTotalPages' style='color: red'></span> &nbsppages.
-	<a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()' >Next</a> Goto <input id='iptGoto' style='width: 40' /><input id='iptGotoPage' type='button' value='GO' onclick='goto()'/>
+	  </thead>
+	  <tbody id='tblItems'></tbody>
+	        <tfoot>
+        <tr>
+          <td colspan="11">
+            <div id='divNavigation'>
+              <br/>
+			  Total <span id='spnTotal' style='color: red'>0</span>&nbsp items found!&nbsp&nbsp&nbsp 
+			  Show <select id='slcNumber' onchange="Query()">
+                <option value='10'>10</option>
+                <option value='20'>20</option>
+                <option value='50'>50</option>
+                <option value='100'>100</option>
+              </select> items in each page. 
+              <br/><br/>
+			  Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp 
+			  <span id='spnTotalPages' style='color: red'></span>&nbsppages. 
+			  <a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()'>Next</a> 
+			  Goto <input id='iptGoto' style='width: 40' />
+			  <input id='iptGotoPage' type='button' value='GO' onclick='goto()' />
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>
+<br/>
+

@@ -113,6 +113,12 @@
 			}
 			$("#tblOrders").html(html);
 		}
+	}
+
+	function Add()
+	{
+		
+		window.location.href="<?=base_url()?>index.php/order/add";
 	}	
 
 	function goto()
@@ -159,34 +165,25 @@
 		$("#divDetail").hide();
 	}
 
-	
-
 </script>
 
+<div class="panel panel-default">
+  <div class="panel-body form-inline">
+    <input id='iptCustomer' class="form-control"  placeholder="Customer" style="width: 300px" />
+    <input id='iptStartDate' class="form-control" placeholder="from this date" readonly="true"  style="width: 200px" /> 
+    <input id='iptEndDate'   class="form-control" placeholder="to this date"   readonly="true"  style="width: 200px" />
+    <input type='button'     class="btn btn-default" value='Query' onclick='Query()' />
+    <input type='button'     class="btn btn-default" value='Add' onclick='Add()' />
+  </div>
+</div>
 
-
-<h3>Order List</h3>
-<?php echo anchor ( 'order/add' , 'Create New' );?>
-
-<p>Customer:
-<input id='iptCustomer'/>
-Date: from 
-<input id='iptStartDate' readonly='true'/> to <input id='iptEndDate' readonly='true'/>
-Show 
-<select style='width: 50px' id='slcNumber'>
-  <option value ='10'>10</option>
-  <option value ='20'>20</option>
-  <option value ='50'>50</option>
-  <option value ='100'>100</option>
-</select> 
-orders in each page. 
-<input type='button' id='iptQuery' onclick='Query()' value='Query'/>
-</p>
 <hr/>
 <a name='C1'></a>
-<table class='gridtable' style="width: 1000">
-	<thead>
-		<th style='width: 100'>Order ID</th>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class='table'>
+	  <thead>
+	    <th style='width: 100'>Order ID</th>
 		<th style='width: 200'>Customer</th>
 		<th>Total befor tax</th>
 		<th>Discount</th>
@@ -195,31 +192,54 @@ orders in each page.
 		<th>Channel</th>
 		<th>Date Time</th>
 		<th>Detail</th>	
-	</thead>
-	<tbody id='tblOrders'></tbody>
-</table>
-
-<div id='divNavigation'>
-	Total <span id='spnTotal' style='color: red'>0</span>&nbsp orders found!&nbsp&nbsp&nbsp
-	Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp <span id='spnTotalPages' style='color: red'></span> &nbsppages.
-	<a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()' >Next</a> Goto <input id='iptGoto' style='width: 40' /><input id='iptGotoPage' type='button' value='GO' onclick='goto()'/>
+	  </thead>
+	  <tbody id='tblOrders'></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="11">
+            <div id='divNavigation'>
+              <br/>
+			  Total <span id='spnTotal' style='color: red'>0</span>&nbsp items found!&nbsp&nbsp&nbsp 
+			  Show <select id='slcNumber' onchange="Query()">
+                <option value='10'>10</option>
+                <option value='20'>20</option>
+                <option value='50'>50</option>
+                <option value='100'>100</option>
+              </select> items in each page. 
+              <br/><br/>
+			  Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp 
+			  <span id='spnTotalPages' style='color: red'></span>&nbsppages. 
+			  <a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()'>Next</a> 
+			  Goto <input id='iptGoto' style='width: 40' />
+			  <input id='iptGotoPage' type='button' value='GO' onclick='goto()' />
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>
+
 <br/>
 
 <div id='divDetail'>
 	<hr/>
 	<a name='C2'></a>
-	<p>Details of order &nbsp<span id='spnOrderID' style='color: red'> </span>&nbsp <input type='button' value='Close' onclick='closedetail()'/> </p>
-	<table class='gridtable'style="width: 1000">
-		<thead>
+	<h4>Details of order &nbsp<span id='spnOrderID' style='color: red'> </span>&nbsp <input type='button' value='Close' onclick='closedetail()'/> </p>
+	<div class="panel panel-default">
+      <div class="panel-body">
+	    <table class='table'>
+		  <thead>
 			<th>Order Line Num </th>
 			<th>Inventory ID </th>
 			<th>Title</th>
 			<th>Quantity</th>
 			<th>Price</th>
-		</thead>
-		<tbody id='tblDetail'></tbody>
-	</table>
+		  </thead>
+		  <tbody id='tblDetail'></tbody>
+	    </table>
+	  </div>
+	</div>
 </div>
 
 

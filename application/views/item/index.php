@@ -62,9 +62,9 @@
 			if (items[i].inventory_id) inventoryID=items[i].inventory_id;
 			html+="<td>"+inventoryID+"</td>";
 			var opt="";
-			if (items[i].inventory_id) opt="<a href='<?=base_url()?>index.php/inventories/inventoriesbyid/"+items[i].inventory_id+"'>View@Inventory</a>";
+			if (items[i].inventory_id) opt="<a href='<?=base_url()?>index.php/inventory/inventoriesbyid/"+items[i].inventory_id+"'>View@Inventory</a>";
 			else if (items[i].availability=='SD');
-			else opt="<a href='<?=base_url()?>index.php/inventories/in/"+items[i].Global_Item_ID+"'>Stock In</a>";
+			else opt="<a href='<?=base_url()?>index.php/inventory/in/"+items[i].Global_Item_ID+"'>Stock In</a>";
 			html+="<td>"+opt+"</td>";
 			html+="</tr>";
 		}
@@ -138,20 +138,20 @@
         <tr>
           <td colspan="7">
             <div id='divNavigation'>
-              Show <select id='slcNumber'>
+              <br/>
+			  Total <span id='spnTotal' style='color: red'>0</span>&nbsp items found!&nbsp&nbsp&nbsp 
+			  Show <select id='slcNumber' onchange="Query()">
                 <option value='10'>10</option>
                 <option value='20'>20</option>
                 <option value='50'>50</option>
                 <option value='100'>100</option>
-              </select> items in each page. Total <span id='spnTotal'
-                style='color: red'>0</span>&nbsp items
-              found!&nbsp&nbsp&nbsp Page <span id='spnPageIndex'
-                style='color: red'></span> &nbspin&nbsp <span
-                id='spnTotalPages' style='color: red'></span>
-              &nbsppages. <a href="#C1" onclick='prev()'>Prev</a> <a
-                href="#C1" onclick='next()'>Next</a> Goto <input
-                id='iptGoto' style='width: 40' /><input id='iptGotoPage'
-                type='button' value='GO' onclick='goto()' />
+              </select> items in each page. 
+              <br/><br/>
+			  Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp 
+			  <span id='spnTotalPages' style='color: red'></span>&nbsppages. 
+			  <a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()'>Next</a> 
+			  Goto <input id='iptGoto' style='width: 40' />
+			  <input id='iptGotoPage' type='button' value='GO' onclick='goto()' />
             </div>
           </td>
         </tr>

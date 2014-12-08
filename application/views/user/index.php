@@ -23,8 +23,6 @@
 			"<?=base_url()?>index.php/user/query_user",
 			{user:str,limit:number,offset:offset},
 			function(data){
-				//alert(data);
-				//return;
 				var items = eval(data);
 				var count = items[items.length-1];
 				$("#spnTotal").text(count);
@@ -55,8 +53,8 @@
 			html+="<td>"+items[i].phoneNumber+"</td>";
 			html+="<td>"+items[i].wechatId+"</td>";
 			html+="<td>";
-			html+="<a href='<?=base_url()?>index.php/items/itembyuser/"+items[i].Global_User_ID+"'>Items </a>&nbsp";
-			html+="<a href='<?=base_url()?>index.php/inventories/inventoriesbyuser/"+items[i].Global_User_ID+"'>Inventories </a>&nbsp";
+			html+="<a href='<?=base_url()?>index.php/item/itembyuser/"+items[i].Global_User_ID+"'>Items </a>&nbsp";
+			html+="<a href='<?=base_url()?>index.php/inventory/inventoriesbyuser/"+items[i].Global_User_ID+"'>Inventories </a>&nbsp";
 			html+="<a href='<?=base_url()?>index.php/order/orderitemsbyuser/"+items[i].Global_User_ID+"'>Order Items </a>";
 			html+="</td>";
 			html+="</tr>";	
@@ -114,23 +112,19 @@
 
 
 </script>
-<h3><?php echo $title;?></h3>
 
-<p>Find the user: <input id='iptUser'  /><input type="button" onclick='Query()' value='Query' />
-Show
-<select style='width: 50px' id='slcNumber'>
-  <option value ='10'>10</option>
-  <option value ='20'>20</option>
-  <option value ='50'>50</option>
-  <option value ='100'>100</option>
-</select>
-users in each page.
-<input type='button' value='Query' onclick='Query()' />
-</p>
-<hr/>
+<div class="panel panel-default">
+  <div class="panel-body form-inline">
+    <input id='iptUser' class="form-control" placeholder="User ID, name, alias, email,phone number or wechat ID" style="width: 500px" /> 
+    <input type='button' class="btn btn-default" value='Query' onclick='Query()' />
+  </div>
+</div>
+
 <a name='C1'></a>
-<table class='gridtable' style="width: 1000">
-	<thead>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class='table'>
+	  <thead>
 		<th style='width: 50'>Global_User_ID</th>
 		<th>First Name</th>
 		<th>Last Name</th>
@@ -140,14 +134,32 @@ users in each page.
 		<th>Wechat ID</th>
 		<th>Link</th>
 		
-	</thead>
+	  </thead>
 	<tbody id='tblUsers'></tbody>
-</table>
-<br/>
-<div id='divNavigation'>
-	Total <span id='spnTotal' style='color: red'>0</span>&nbsp inventories found!&nbsp&nbsp&nbsp
-	Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp <span id='spnTotalPages' style='color: red'></span> &nbsppages.
-	<a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()' >Next</a> Goto <input id='iptGoto' style='width: 40' /><input id='iptGotoPage' type='button' value='GO' onclick='goto()'/>
+      <tfoot>
+        <tr>
+          <td colspan="11">
+            <div id='divNavigation'>
+              <br/>
+			  Total <span id='spnTotal' style='color: red'>0</span>&nbsp items found!&nbsp&nbsp&nbsp 
+			  Show <select id='slcNumber' onchange="Query()">
+                <option value='10'>10</option>
+                <option value='20'>20</option>
+                <option value='50'>50</option>
+                <option value='100'>100</option>
+              </select> items in each page. 
+              <br/><br/>
+			  Page <span id='spnPageIndex' style='color: red'></span> &nbspin&nbsp 
+			  <span id='spnTotalPages' style='color: red'></span>&nbsppages. 
+			  <a href="#C1" onclick='prev()'>Prev</a> <a href="#C1" onclick='next()'>Next</a> 
+			  Goto <input id='iptGoto' style='width: 40' />
+			  <input id='iptGotoPage' type='button' value='GO' onclick='goto()' />
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>
 
 
