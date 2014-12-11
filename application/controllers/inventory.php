@@ -89,6 +89,7 @@ class Inventory extends CI_Controller {
 	}
 	
 	public function in($global_item_id) {
+		log_message('debug', print_r($this->input->post(), true));
 		$this->load->helper ( 'form' );
 	
 		$item = $this->app_model->get_item_by_global_id ( $global_item_id );
@@ -190,7 +191,7 @@ class Inventory extends CI_Controller {
 				'user_name' => $user_name,
 				'title' => $item ['title'],
 				'barcode' => $item ['barcode'],
-				'category' => $item ['category'],
+				'category' => $item ['category'] ? $item ['category'] : '',
 				'price' => $price,
 				'floor_price' => $floor_price ? $floor_price : NULL,
 				'cost' => $cost ? $cost : NULL,

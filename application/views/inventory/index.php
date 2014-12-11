@@ -54,13 +54,13 @@
 			html+="<td>"+items[i].Global_Item_ID+"</td>";
 			html+="<td>"+items[i].title+"</td>";
 			html+="<td>"+items[i].owner+"</td>";
-			html+="<td>"+items[i].floor_price+"</td>";
+			html+="<td>"+(items[i].floor_price?items[i].floor_price:'')+"</td>";
 			html+="<td>"+items[i].price+"</td>";
-			html+="<td>"+items[i].cost+"</td>";
+			html+="<td>"+(items[i].cost?items[i].cost:'')+"</td>";
 			html+="<td>"+items[i].sales_split+"</td>";
 			html+="<td>"+items[i].quantity+"</td>";
 			html+="<td>"+items[i].remainder_quantity+"</td>";
-			html+="<td><a href='<?=base_url()?>index.php/inventory/print_label/"+items[i].inventory_id+"' >Print</a></td>";
+			html+="<td><a href='<?=base_url()?>index.php/inventory/print_label/"+items[i].inventory_id+"' target='blank' >Print</a></td>";
 			html+="</tr>";
 		}
 		$("#tblItems").html(html);
