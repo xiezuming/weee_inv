@@ -1,92 +1,92 @@
-<h3><?php echo $title;?></h3>
-
-<font color='red'>
-<?php echo validation_errors(); ?>
-<?php echo isset($error_message) ? $error_message : ''; ?>
-</font>
-
-<?php echo form_open('inventory/in/'.$item['Global_Item_ID']);?>
-<fieldset>
-	<legend>Price &amp; Quantity:</legend>
-	<table class='gridtable'>
-		<tr>
-			<th>Item Title</th>
-			<td><?php echo $item['title']?></td>
-		</tr>
-		<tr>
-			<th>Price</th>
-			<td><?php echo form_input('price', set_value('price', $item['expectedPrice']), 'class="rightJustified"');?></td>
-		</tr>
-		<tr>
-			<th>Quantity</th>
-			<td><?php echo form_input('quantity', set_value('quantity', '1'), 'class="rightJustified"');?></td>
-		</tr>
-	</table>
-</fieldset>
 
 
-<div style="float: left; width: 50%;">
-	<fieldset style="height: 120">
-		<legend>Consignment:</legend>
-		<table class='gridtable'>
-			<tr>
-				<th>Floor Price</th>
-				<td><?php echo form_input('floor_price', set_value('floor_price'), 'class="rightJustified"');?></td>
-			</tr>
-			<tr>
-				<th>Sales Split</th>
-				<td><?php echo form_input('sales_split', set_value('sales_split', '30'), 'class="rightJustified"');?>%</td>
-			</tr>
-		</table>
-		<p><?php echo form_submit('submit_consignment', 'Consignment');?></p>
-	</fieldset>
+<form role="form"
+  action=<?=site_url('inventory/in/'.$item['Global_Item_ID'])?>
+  method='POST'>
+  <div class="panel panel-primary">
+    <div class="panel-heading"><?php echo $title;?></div>
+    <div class="panel-body">
+
+      <font color='red'>
+        <?php echo validation_errors(); ?>
+        <?php echo isset($error_message) ? $error_message : ''; ?>
+      </font>
+
+      <h4><?=$item['title']?></h4>
+
+      <div class="form-group col-sm-6">
+        <label for="price" class="control-label">Price</label>
+        <?=form_input('price', set_value('price', $item['expectedPrice']), 'class="form-control"');?>
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="quantity" class="control-label">Quantity</label>
+        <?=form_input('quantity', set_value('quantity', '1'), 'class="form-control"');?>
+      </div>
+
+
+      <div class="col-sm-6">
+        <div class="border-group">
+          <div class="form-group">
+            <label for="floor_price">Floor Price</label> <input
+              name="floor_price" class="form-control"
+              value="<?=set_value('floor_price')?>" /> <label
+              for="Sales Split">Sales Split</label>
+            <div class="input-group">
+              <?=form_input('sales_split', set_value('sales_split', '30'), 'class="form-control"')?>
+              <span class="input-group-addon">%</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary"
+            name="submit_consignment" value="1">Consignment</button>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="border-group">
+          <div class="form-group">
+            <label for="cost">Cost</label>
+            <?=form_input('cost', set_value('cost'), 'class="form-control"')?>
+          </div>
+          <button type="submit" class="btn btn-primary"
+            name="submit_buy_and_sell" value="1">Buy and Sell</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">Item Details</div>
+  <div class="panel-body">
+    <table class='table'>
+      <?php
+      foreach ( $item as $key => $value ) {
+        echo "<tr><th>$key</th><td>$value</td></tr>";
+      }
+      ?>
+    </table>
+  </div>
 </div>
 
-<div style="float: right; width: 50%;">
-	<fieldset style="height: 120">
-		<legend>Buy and Sell:</legend>
-		<table class='gridtable'>
-			<tr>
-				<th>Cost</th>
-				<td><?php echo form_input('cost', set_value('cost'), 'class="rightJustified"');?></td>
-			</tr>
-		</table>
-		<p><?php echo form_submit('submit_buy_and_sell', 'Buy and Sell');?></p>
-	</fieldset>
+<div class="panel panel-primary">
+  <div class="panel-heading">Owner Details</div>
+  <div class="panel-body">
+    <table class='table'>
+      <?php
+      foreach ( $user as $key => $value ) {
+        echo "<tr><th>$key</th><td>$value</td></tr>";
+      }
+      ?>
+    </table>
+  </div>
 </div>
-<div style="clear: both;"></div>
 
-<?php echo '</form>'?>
-
-<fieldset>
-	<legend class='togvis'>Item Details:</legend>
-	<div class="contents" style="display: none;">
-		<table class='gridtable'>
-			<?php
-			foreach ( $item as $key => $value ) {
-				echo "<tr><th>$key</th><td>$value</td></tr>";
-			}
-			?>
-		</table>
-	</div>
-</fieldset>
-
-<fieldset>
-	<legend class='togvis'>Owner Details:</legend>
-	<div class="contents" style="display: none;">
-		<table class='gridtable'>
-			<?php
-			foreach ( $user as $key => $value ) {
-				echo "<tr><th>$key</th><td>$value</td></tr>";
-			}
-			?>
-		</table>
-	</div>
-</fieldset>
-
-<script>
-$('legend.togvis').click(function() {
-	$(this).parent().find("div").toggle();
-    return false;
-});
-</script>
+<style>
+.border-group {
+	border: 1px solid #888;
+	margin: 10 0;
+	padding: 10;
+	border-radius: 5
+}
+</style>

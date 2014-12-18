@@ -53,9 +53,9 @@
 			html+="<td>"+items[i].Global_Item_ID+"</td>";
 			html+="<td>"+items[i].title+"</td>";
 			html+="<td>"+items[i].owner+"</td>";
-			html+="<td>"+items[i].floor_price+"</td>";
+			html+="<td>"+(items[i].floor_price?items[i].floor_price:'')+"</td>";
 			html+="<td>"+items[i].price+"</td>";
-			html+="<td>"+items[i].cost+"</td>";
+			html+="<td>"+(items[i].cost?items[i].cost:'')+"</td>";
 			html+="<td>"+items[i].sales_split+"</td>";
 			html+="<td>"+items[i].quantity+"</td>";
 			html+="<td>"+items[i].remainder_quantity+"</td>";
