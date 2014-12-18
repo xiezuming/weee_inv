@@ -4,7 +4,34 @@
 	var indexofcart=0;
 
 	$(function() {
-		
+	  $.post(
+	    "<?=base_url()?>index.php/settings/gettaxrate",
+	    function(data){
+		  if(data!='ERROR') $("#iptTaxRate").val(data);
+		  else{
+		    alert("Get tax rate error!");
+		    window.location.href="<?=base_url()?>index.php/order";
+		  }
+		}
+      );
+
+      $.post(
+        "<?=base_url()?>index.php/settings/getchannels", 
+        function(data)
+        {
+  		  var values = eval(data);
+	      var ChannelDefault = values[values.length-1];
+	      var html="";
+	      for (var i=0;i<values.length-1;i++)
+	      {
+		    html+="<option value='"+values[i].setting_value+"'";
+		    if (values[i].setting_value==ChannelDefault)
+			  html+=" selected ";
+			html+=">"+values[i].setting_value+"</option>";
+		  }
+		  $("#slcChannel").html(html);
+        }     
+      );
 	});
 	
 	function Query()
@@ -72,6 +99,7 @@
 
 	function checkout()
 	{
+		if (!GetSum()) return;
 		if (confirm("Do you really want to check out?") == false) return;
 		if (arrayObj.length==0){
 			alert("No item selected!");
@@ -89,10 +117,12 @@
 		var tax=$("#spnTax").html();
 		var total=$("#spnTotal").html(); 
 		var customer = $("#iptCustomer").val();
+		var channel = $("#slcChannel").val();
+		var taxrate = $("#iptTaxRate").val();
 
 		$.post(
 			"<?=base_url()?>index.php/order/addorder",
-			{customer:customer,sum:sum,discount:discount,tax:tax,total:total,data:items},
+			{channel:channel,customer:customer,sum:sum,discount:discount,tax:tax,total:total,data:items,taxrate:taxrate},
 			function(data){
 				if (data=='OK')
 				{ 
@@ -123,15 +153,19 @@
 		if(arrayObj.length==0) {
 			$("#spnSum").html('0');
 			$("#spnTax").html('0');
-			$("#spnTotal").html('0'); 
-
-			return;	
+			$("#spnTotal").html('0');
+			return false;	
 		}
-		var i;
-		var sum=0,total=0,taxrate=0.07,tax=0;
+		var sum=0,total=0,tax=0;
+		var taxrate=$("#iptTaxRate").val();
+		if (!$.isNumeric(taxrate))
+		{
+			alert("Wrong Tax Rate!");
+			return false;
+		}
+		taxrate=taxrate/100.0;
 		var discount=$("#iptDiscount").val();
-		
-		for(i=0;i<arrayObj.length;i++)
+		for(var i=0;i<arrayObj.length;i++)
 		{
 			sum+=arrayObj[i].price*arrayObj[i].purchase_quantity;
 		}
@@ -141,11 +175,11 @@
 		tax=tax.toFixed(2);
 		$("#spnTax").html(tax);
 		$("#spnTotal").html(total);
+		return true;
 	}
 
 	function OnQuantityChange(index)
 	{
-		
 		var ex = /^\d+$/;
 		var str=$("#iptPurchaseQuantity"+index).val();
 		if (ex.test(str)) {
@@ -198,8 +232,7 @@
   <div class="panel-body form-inline">
     <input id='iptQueryItem' class="form-control"
       placeholder="Input inventory ID here." style="width: 300px" onkeydown="if(event.keyCode==13) Query()"/>
-    <input type='button'
-      class="btn btn-default" value='Query' onclick='Query()' />
+    <input type='button' class="btn btn-default" value='Query' onclick='Query()' />
   </div>
 </div>
 
@@ -227,9 +260,13 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <table class='table'>
+      <tr>
+        <td style="width: 400">Channel</td>
+        <td style="width: 200; text-align:right" ><select id="slcChannel"  style="width:200; text-align:right" ></select> </td>
+      </tr>
 	  <tr>
-	    <td style="width: 200">Customer</td>
-	    <td style="width: 200;text-align:right"><input id='iptCustomer' style="text-align:right" value='Anonymous'/> </td>
+	    <td style="width: 400">Customer</td>
+	    <td style="width: 200;text-align:right"><input id='iptCustomer'  style="width:200; text-align:right" value='Anonymous'> </td>
 	  </tr>
 	  <tr>
 	    <td style="width: 200">Total before tax:</td>
@@ -237,10 +274,12 @@
 	  </tr>
 	  <tr>
 	    <td >Discount</td>
-	    <td style="text-align:right">$<input style="text-align:right" id='iptDiscount' value='0' onchange='OnDiscountChange()'/></td>
+	    <td style="text-align:right">$<input id='iptDiscount'  style="width:200 ;text-align:right" value='0' onchange='OnDiscountChange()'/></td>
 	  </tr>
 	  <tr>
-	    <td >Tax:</td>
+	    <td >
+	      Tax Rate:<input id='iptTaxRate'  style='width: 100;text-align:right' >%<input type="button" class="btn btn-default" value="Recaculate Tax" onclick="GetSum()">
+        </td>
 	    <td style="text-align:right">$<span id='spnTax' >0</span></td>
 	  </tr>
 	  <tr>
@@ -249,7 +288,7 @@
 	  </tr>
 	  <tr>
 		<td style="width: 200"></td>
-		<td style="width: 200;text-align:right"><input type='button' value='Check Out' onclick='checkout()'/></td>
+		<td style="width: 200;text-align:right"><input type='button' class="btn btn-default" value='Check Out' onclick='checkout()'/></td>
 	  </tr>
     </table>
   </div>

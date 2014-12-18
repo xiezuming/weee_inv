@@ -5,7 +5,7 @@
 <?php echo isset($error_message) ? $error_message : ''; ?>
 </font>
 
-<?php echo form_open('inventories/in/'.$item['Global_Item_ID']);?>
+<?php echo form_open('inventory/in/'.$item['Global_Item_ID']);?>
 <fieldset>
 	<legend>Price &amp; Quantity:</legend>
 	<table class='gridtable'>

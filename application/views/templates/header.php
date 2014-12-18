@@ -19,7 +19,7 @@
           id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
           <?php 
-          $navs = array('item'=>'Item', 'inventory'=>'Inventory', 'order'=>'Order', 'user'=>'User');
+          $navs = array('item'=>'Item', 'inventory'=>'Inventory', 'order'=>'Order', 'user'=>'User','settings'=>'Settings');
           foreach ($navs as $key=>$value){
           	echo '<li';
           	if (isset($title) && $title === $key)

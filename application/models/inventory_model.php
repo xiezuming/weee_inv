@@ -1,5 +1,6 @@
 <?php
 define ( 'TABLE_Inventory', 'inventory' );
+define ( 'TABLE_Inventory_picked', 'inventory_picked' );
 
 /**
  *
@@ -61,10 +62,19 @@ class Inventory_model extends CI_Model {
 		else 
 		{
 			$left = $q-$quantity;
-			$set = array('remainder_quantity' => $left);
+			$date_now = date ( 'Y-m-d H:i:s' );
+			$set = array('remainder_quantity' => $left,'rec_update_time' => $date_now);
 			$this->db->update(TABLE_Inventory,$set,$where,1);
-			return 'Success';
+			return 'OK';
 		} 
+	}
+	
+	public function add_inventory_picked($id,$quantity)
+	{
+		$result = $this->db->insert ( TABLE_Inventory_picked, array('inventory_id' => $id, 'quantity' => $quantity, 'pick_time' => date ( 'Y-m-d H:i:s' )) );
+		if ($this->db->_error_number ())
+			log_message ( 'error', 'Inventory_model.add_inventory_picked: ' . $this->db->_error_number () . ':' . $this->db->_error_message () );
+		return $result;
 	}
 }
 ?>

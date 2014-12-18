@@ -72,6 +72,7 @@ class Inventory extends CI_Controller {
 			$backItem['sales_split']= $item['sales_split'];
 			$backItem['quantity']= $item['quantity'];
 			$backItem['remainder_quantity']= $item['remainder_quantity'];
+			$backItem['rec_create_time']=$item['rec_create_time'];
 			array_push($result, $backItem);
 		}
 		
@@ -133,6 +134,8 @@ class Inventory extends CI_Controller {
 		$this->load->view ( 'inventory/in', $data );
 		$this->load->view ( 'templates/footer' );
 	}
+	
+	
 	private function save_inventory($item, $user) {
 		$user_name = $user ['lastName'] . ' ' . $user ['firstName'];
 	
@@ -218,6 +221,27 @@ class Inventory extends CI_Controller {
 		}
 		return $inventory_id;
 	}
+	
+  public function pickupinventory()
+  {
+    $id = $_POST["inventory_id"];
+    $where="inventory_id = " .$id;
+    $data=$this->inventory_model->query_items($where,1,0);
+    $inventory=$data[0];
+    $quantity=$inventory['remainder_quantity'];
+    $date_now = date ( 'Y-m-d H:i:s' );
+    $result = $this->inventory_model->reduce_quantity($id,$quantity);
+    if ($result!="OK")
+    {
+    	echo "ERROR";
+    	return ;
+    }
+   
+    $result = $this->inventory_model->add_inventory_picked($id,$quantity);
+    if ($result==1) echo "OK";
+    else echo "ERROR";
+  	
+  }
 	
 
 }

@@ -6,7 +6,6 @@
 	$(function() {
 		$("#iptUser").val(<?php echo $Global_User_ID;?>);
 		$("#iptQueryString").val(<?php echo $id;?>);
-		
 		Query();
 	});
 	
@@ -60,12 +59,39 @@
 			html+="<td>"+items[i].sales_split+"</td>";
 			html+="<td>"+items[i].quantity+"</td>";
 			html+="<td>"+items[i].remainder_quantity+"</td>";
-			html+="<td><a href='<?=base_url()?>index.php/inventory/print_label/"+items[i].inventory_id+"' >Print</a></td>";
+			html+="<td>"+items[i].rec_create_time+"</td>";
+			html+="<td><input type='button' class='btn btn-default' value='Print' onclick='Print("+items[i].inventory_id+")'>";
+			if ((items[i].owner=="Weee!")&&(items[i].remainder_quantity>0))
+			  html+="<input type='button' class='btn btn-default' value='Pick&nbsp' onclick='PickUp("+items[i].inventory_id+")'";
+			html+="</td>";
 			html+="</tr>";
 		}
 		$("#tblItems").html(html);
 	}
 
+  function Print(id)
+  {
+	window.location.href='<?=base_url()?>index.php/inventory/print_label/'+id;
+  }
+
+  function PickUp(id)
+  {
+	if(!confirm("Are you sure to pick up this inventory?")) return;
+    $.post(
+      "<?=base_url()?>index.php/inventory/pickupinventory",
+      {inventory_id:id},
+      function(data)
+      {
+        if(data=="OK")
+        {
+          alert("Inventory picked!");
+          Query();
+        }
+        else alert(data);
+      }
+    );
+  }
+	
 	function SetNavigation()
 	{
 		if (totalpages==0)
@@ -128,17 +154,18 @@
   <div class="panel-body">
     <table class='table'>
       <thead>
-        <th style='width: 100'>Inventory ID</th>
-        <th style='width: 100'>Global Item ID</th>
-        <th style='width: 500'>Title</th>
-        <th style='width: 100'>Owner</th>
+        <th style='width: 100px'>Inventory ID</th>
+        <th style='width: 100px'>Global Item ID</th>
+        <th style='width: 400px'>Title</th>
+        <th style='width: 100px'>Owner</th>
         <th style='width: 100'>Floor Price</th>
         <th style='width: 100'>Price</th>
         <th style='width: 100'>Cost</th>
         <th style='width: 100'>Sales Split</th>
-        <th style='width: 100'>Quantity</th>
-        <th style='width: 100'>Reaminder</th>
-        <th style='width: 100'>Print</th>
+        <th style='width: 50'>Quantity</th>
+        <th style='width: 50'>Reaminder</th>
+        <th style='width: 200'>Create Time</th>
+        <th style='width: 300px'>Operation</th>
       </thead>
       <tbody id='tblItems'></tbody>
       <tfoot>

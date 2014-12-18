@@ -81,7 +81,9 @@
 			$tax=$_POST['tax'];
 			$total=$_POST['total'];
 			$data=$_POST['data'];
-			$date_now = date ( 'Y-m-d H:i:s' );
+			$channel=$_POST['channel'];
+			$taxrate=$_POST['taxrate'];
+			$date_now = date ( 'Y-m-d H:i:s' );	
 			
 			$success = $this->order_model->insert_order ( array (
 					'customer_name' => $customer,
@@ -89,8 +91,9 @@
 					'discount' => $discount,
 					'tax' => $tax,
 					'total' => $total,
-					'channel' => 'str',
-					'rec_create_time' => $date_now
+					'channel' => $channel,
+					'rec_create_time' => $date_now,
+					'taxrate' => $taxrate
 			));
 			
 			
